@@ -3,54 +3,76 @@ import { useEffect, useState } from 'react';
 // import viteLogo from '/vite.svg';
 import './App.css';
 import axios from 'axios';
+import * as React from 'react';
+import Table from './components/common/Table';
+import { Course, Student } from './types/types';
+import EntitiesList from './components/StudentsList/index';
+import CoursesList from './components/CoursesList/index';
+
+// const students = [
+//   {
+//     "name": "Vasiliy",
+//     "surname": "Konov",
+//     "email": "vaskon@gmail.com",
+//     "courses": null,
+//     "id": "36e65205-e66b-45bf-8041-4b87d6dbd888"
+//   },
+//   {
+//     "name": "Andrey",
+//     "surname": "Ivanov",
+//     "email": "aniv@gmail.com",
+//     "courses": null,
+//     "id": "3e98d987-2f30-4fa4-b072-a6759f78e0d8"
+//   },
+//   {
+//     "name": "Mikhail",
+//     "surname": "Tall",
+//     "email": "mih@gmail.com",
+//     "courses": null,
+//     "id": "a9949520-3e25-47aa-a31d-ea21524eede2"
+//   }
+// ]
+
+type StudentsCardProps = {
+  students: Array<Student>;
+}
 
 function App() {
   // const [count, setCount] = useState(0)
 
-  const [students, setStudents] = useState([]);
-  const [error, setError] = useState([]);
+  const [students, setStudents] = useState<Array<Student>>([]);
+  const [courses, setCourses] = useState<Array<Course>>([]);
+  const [error, setError] = useState();
 
   useEffect(() => {
     axios.get('http://localhost:5000/students-courses-api/students')
       .then((students: any) => setStudents(students.data))
-      .catch((er: any) => setError(er.message));
+      .catch((er: any) => {
+        debugger
+        setError(er.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/students-courses-api/courses')
+      .then((courses: any) => setCourses(courses.data))
+      .catch((er: any) => {
+        debugger
+        setError(er.message);
+      });
   }, []);
 
   debugger
   return (
     <>
-      <h1>
-        Students
-      </h1>
-      {error ?
-        <div className="error">{error}</div>
-        : <ul className="student-list">{students.map((st: any) =>
-          (
-            <div className="student">
-              <li key={st.id}>{st.name} {st.surname}, {st.email}</li>
-            </div>
-          ))}
-        </ul>}
-      {/*<div>*/}
-      {/*<a href="https://vitejs.dev" target="_blank">*/}
-      {/*  <img src={viteLogo} className="logo" alt="Vite logo"/>*/}
-      {/*</a>*/}
-      {/*<a href="https://react.dev" target="_blank">*/}
-      {/*  <img src={reactLogo} className="logo react" alt="React logo"/>*/}
-      {/*</a>*/}
-      {/*</div>*/}
-      {/*<h1>Vite + React</h1>*/}
-      {/*<div className="card">*/}
-      {/*  <button onClick={() => setCount((count) => count + 1)}>*/}
-      {/*    count is {count}*/}
-      {/*  </button>*/}
-      {/*  <p>*/}
-      {/*    Edit <code>src/App.tsx</code> and save to test HMR*/}
-      {/*  </p>*/}
-      {/*</div>*/}
-      {/*<p className="read-the-docs">*/}
-      {/*  Click on the Vite and React logos to learn more*/}
-      {/*</p>*/}
+      <Table
+        title={"Students"}
+        dataComponent={<EntitiesList students={students} />}
+      />
+      <Table
+        title={"Students"}
+        dataComponent={<CoursesList courses={courses} />}
+      />
     </>
   );
 }
