@@ -1,7 +1,4 @@
-import * as React from 'react';
-
-
-const Error = ({message}) => {
+const Error = ({message}: any) => {
   return <div className="error">{message}</div>
 }
 

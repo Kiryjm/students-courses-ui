@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 // import viteLogo from '/vite.svg';
 import './App.css';
 import axios from 'axios';
-import * as React from 'react';
+// import * as React from 'react';
 import Table from './components/common/Table';
 import { Course, Student } from './types/types';
-import EntitiesList from './components/StudentsList/index';
-import CoursesList from './components/CoursesList/index';
+import EntitiesList from './components/StudentsList';
+import CoursesList from './components/CoursesList';
+import { GET_COURSES, GET_STUDENTS } from './constants/api';
 
 // const students = [
 //   {
@@ -33,19 +34,12 @@ import CoursesList from './components/CoursesList/index';
 //   }
 // ]
 
-type StudentsCardProps = {
-  students: Array<Student>;
-}
-
 function App() {
-  // const [count, setCount] = useState(0)
-
   const [students, setStudents] = useState<Array<Student>>([]);
   const [courses, setCourses] = useState<Array<Course>>([]);
   const [error, setError] = useState();
-
   useEffect(() => {
-    axios.get('http://localhost:5000/students-courses-api/students')
+    axios.get(GET_STUDENTS)
       .then((students: any) => setStudents(students.data))
       .catch((er: any) => {
         debugger
@@ -54,7 +48,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/students-courses-api/courses')
+    axios.get(GET_COURSES)
       .then((courses: any) => setCourses(courses.data))
       .catch((er: any) => {
         debugger
@@ -70,7 +64,7 @@ function App() {
         dataComponent={<EntitiesList students={students} />}
       />
       <Table
-        title={"Students"}
+        title={"Courses"}
         dataComponent={<CoursesList courses={courses} />}
       />
     </>

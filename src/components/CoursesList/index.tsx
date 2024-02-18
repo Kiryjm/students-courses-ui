@@ -1,8 +1,7 @@
-import * as React from 'react';
 import { Entity } from '../../types/types';
 
 type CoursesListProps = {
-  students: Array<Entity<Record<string, any>>>;
+  courses: Array<Entity>;
 }
 
 const CoursesList = ({ courses }: CoursesListProps) => {

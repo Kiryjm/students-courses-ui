@@ -1,18 +1,18 @@
-class Model {
+export type IIdentified = {
   id: string;
 }
 
-export class Student extends Model {
+export type Student = IIdentified & {
   name: string;
   surname: string;
   email?: string;
 }
 
-export class Course extends Model {
+export type Course = IIdentified & {
   title: string;
   description: string;
-  startDate: Date;
-  endDate: Date;
+  startDate?: Date;
+  endDate?: Date;
 }
 
-export type Entity<T extends Model> = T & { id: string };
+export type Entity = Record<string, any> & IIdentified;

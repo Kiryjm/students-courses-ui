@@ -1,7 +1,7 @@
 
 type TableProps = {
   title?: string;
-  data?: Array<any>;
+  dataComponent: any;
 }
 
 const Table = ({title, dataComponent}: TableProps) => {
